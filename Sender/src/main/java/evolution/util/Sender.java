@@ -1,5 +1,6 @@
 package evolution.util;
 
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import org.apache.commons.io.IOUtils;
@@ -38,6 +39,11 @@ public class Sender {
 		return gson.fromJson(getString(response), clazz);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <V0, V1> Map<V0, V1> getMap(Future<HttpResponse> response, Class<V0> class0, Class<V1> class1) {
+		return gson.fromJson(getString(response), Map.class);
+	}
+	
 	public Future<HttpResponse> get(String url) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
@@ -50,13 +56,13 @@ public class Sender {
 		}
 	}
 	
-	public Future<HttpResponse> post(String url, Object dto) {
+	public Future<HttpResponse> post(String url, Object data) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
 			httpclient.start();
 			HttpPost post = new HttpPost(url);
 			post.setHeader("content-type", "application/json");
-			post.setEntity(new StringEntity(gson.toJson(dto)));
+			post.setEntity(new StringEntity(gson.toJson(data)));
 			return httpclient.execute(post, null);
 		} catch (Exception e) {
 			log.error("HTTP POST has encountered a problem. The complete trace is {}", e);
@@ -64,13 +70,13 @@ public class Sender {
 		}
 	}
 	
-	public Future<HttpResponse> patch(String url, Object dto) {
+	public Future<HttpResponse> patch(String url, Object data) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
 			httpclient.start();
 			HttpPatch patch = new HttpPatch(url);
 			patch.setHeader("content-type", "application/json");
-			patch.setEntity(new StringEntity(gson.toJson(dto)));
+			patch.setEntity(new StringEntity(gson.toJson(data)));
 			return httpclient.execute(patch, null);
 		} catch (Exception e) {
 			log.error("HTTP PATCH has encountered a problem. The complete trace is {}", e);

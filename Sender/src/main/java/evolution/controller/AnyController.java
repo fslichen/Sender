@@ -1,6 +1,10 @@
 package evolution.controller;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +21,16 @@ public class AnyController {
 	}
 	
 	@PostMapping("/post")
-	public String post(@RequestBody AnyDto dto) {
+	public AnyDto post(@RequestBody AnyDto dto) {
 		System.out.println(dto);
-		return "{'name' : 'Chen'}";
+		return dto;
+	}
+	
+	@PatchMapping("/patch")
+	public Map<Integer, String> patch() {
+		Map<Integer, String> map = new LinkedHashMap<>();
+		map.put(0, "Bob");
+		map.put(0, "Ann");
+		return map;
 	}
 }
