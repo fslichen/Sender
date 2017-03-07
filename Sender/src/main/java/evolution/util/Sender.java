@@ -4,7 +4,9 @@ import java.util.concurrent.Future;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
@@ -57,7 +59,33 @@ public class Sender {
 			post.setEntity(new StringEntity(gson.toJson(dto)));
 			return httpclient.execute(post, null);
 		} catch (Exception e) {
-			log.error("HTTP GET has encountered a problem. The complete trace is {}", e);
+			log.error("HTTP POST has encountered a problem. The complete trace is {}", e);
+			return null;
+		}
+	}
+	
+	public Future<HttpResponse> patch(String url, Object dto) {
+		try {
+			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
+			httpclient.start();
+			HttpPatch patch = new HttpPatch(url);
+			patch.setHeader("content-type", "application/json");
+			patch.setEntity(new StringEntity(gson.toJson(dto)));
+			return httpclient.execute(patch, null);
+		} catch (Exception e) {
+			log.error("HTTP PATCH has encountered a problem. The complete trace is {}", e);
+			return null;
+		}
+	}
+	
+	public Future<HttpResponse> delete(String url) {
+		try {
+			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
+			httpclient.start();
+			HttpDelete delete = new HttpDelete(url);
+			return httpclient.execute(delete, null);
+		} catch (Exception e) {
+			log.error("HTTP DELETE has encountered a problem. The complete trace is {}", e);
 			return null;
 		}
 	}
