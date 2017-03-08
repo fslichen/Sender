@@ -26,7 +26,7 @@ public class Sender {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public String getString(Future<HttpResponse> response) {
+	public static String getString(Future<HttpResponse> response) {
 		try {
 			return IOUtils.toString(response.get().getEntity().getContent());
 		} catch (Exception e) {
@@ -35,16 +35,16 @@ public class Sender {
 		}
 	}
 	
-	public <T> T getDto(Future<HttpResponse> response, Class<T> clazz) {
+	public static <T> T getDto(Future<HttpResponse> response, Class<T> clazz) {
 		return gson.fromJson(getString(response), clazz);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <V0, V1> Map<V0, V1> getMap(Future<HttpResponse> response, Class<V0> class0, Class<V1> class1) {
+	public static <V0, V1> Map<V0, V1> getMap(Future<HttpResponse> response, Class<V0> class0, Class<V1> class1) {
 		return gson.fromJson(getString(response), Map.class);
 	}
 	
-	public Future<HttpResponse> get(String url) {
+	public static Future<HttpResponse> get(String url) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
 			httpclient.start();
@@ -56,7 +56,7 @@ public class Sender {
 		}
 	}
 	
-	public Future<HttpResponse> post(String url, Object data) {
+	public static Future<HttpResponse> post(String url, Object data) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
 			httpclient.start();
@@ -70,7 +70,7 @@ public class Sender {
 		}
 	}
 	
-	public Future<HttpResponse> patch(String url, Object data) {
+	public static Future<HttpResponse> patch(String url, Object data) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
 			httpclient.start();
@@ -84,7 +84,7 @@ public class Sender {
 		}
 	}
 	
-	public Future<HttpResponse> delete(String url) {
+	public static Future<HttpResponse> delete(String url) {
 		try {
 			CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
 			httpclient.start();
