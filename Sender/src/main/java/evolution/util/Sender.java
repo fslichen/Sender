@@ -66,6 +66,7 @@ public class Sender {
 			return httpclient.execute(post, null);
 		} catch (Exception e) {
 			log.error("HTTP POST has encountered a problem. The complete trace is {}", e);
+			System.out.println("Error Occured");
 			return null;
 		}
 	}
